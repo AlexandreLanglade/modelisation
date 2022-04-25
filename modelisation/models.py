@@ -2,6 +2,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from netbox.models import OrganizationalModel, NetBoxModel
 from utilities.choices import ChoiceSet
+from django.urls import reverse
 
 class MemberTypeChoices(ChoiceSet):
     key = 'Member.type'
@@ -16,6 +17,9 @@ class Topology(OrganizationalModel):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('plugins:modelisation:topology', args=[self.pk])
 
 class Member(NetBoxModel):
 
@@ -46,6 +50,9 @@ class Member(NetBoxModel):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('plugins:modelisation:member', args=[self.pk])
 
     def get_type_color(self):
         return MemberTypeChoices.colors.get(self.type)
