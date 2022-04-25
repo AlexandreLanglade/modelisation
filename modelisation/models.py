@@ -12,7 +12,7 @@ class MemberTypeChoices(ChoiceSet):
         ('vlan', 'VLAN', 'orange'),
     ]
 
-class Topologie(OrganizationalModel):
+class Topology(OrganizationalModel):
 
     def __str__(self):
         return self.name
@@ -31,8 +31,8 @@ class Member(NetBoxModel):
         max_length=20,
         choices=MemberTypeChoices,
     )
-    topologie = models.ForeignKey(
-        to=Topologie,
+    topology = models.ForeignKey(
+        to=Topology,
         on_delete=models.PROTECT,
         related_name='Members'
     )
@@ -42,7 +42,7 @@ class Member(NetBoxModel):
     )
 
     class Meta:
-        ordering = ('topologie','name')
+        ordering = ('topology','name')
 
     def __str__(self):
         return self.name
