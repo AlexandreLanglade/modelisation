@@ -1,0 +1,1 @@
+python3 /opt/netbox/netbox/manage.py runserver
