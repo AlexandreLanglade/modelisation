@@ -28,4 +28,4 @@ class MemberTable(NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = Member
         fields = ('pk', 'id', 'name', 'slug', 'type', 'topology', 'description', 'actions')
-        fields = ('name', 'slug', 'type', 'topology', 'description', 'actions')
+        default_columns = ('name', 'slug', 'type', 'topology', 'description', 'actions')
