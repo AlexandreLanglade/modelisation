@@ -38,7 +38,7 @@ class Member(NetBoxModel):
     topology = models.ForeignKey(
         to=Topology,
         on_delete=models.PROTECT,
-        related_name='Members'
+        related_name='members'
     )
     description = models.CharField(
         max_length=200,
