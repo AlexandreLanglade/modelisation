@@ -5,6 +5,14 @@ from django.db.models import Count
 class TopologyView(generic.ObjectView):
     queryset = models.Topology.objects.all()
 
+    def get_extra_context(self, request, instance):
+        table = tables.MemberTable(instance.members.all())
+        table.configure(request)
+
+        return {
+            'members_table': table,
+        }
+
 class TopologyListView(generic.ObjectListView):
     queryset = models.Topology.objects.annotate(
         member_count=Count('members')

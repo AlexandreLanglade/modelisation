@@ -19,6 +19,10 @@ class TopologyTable(NetBoxTable):
 
 class MemberTable(NetBoxTable):
 
+    name = tables.Column(
+        linkify=True
+    )
+
     topology = tables.Column(
         linkify=True
     )
