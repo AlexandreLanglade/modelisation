@@ -1,0 +1,1 @@
+source /opt/netbox/venv/bin/activate
