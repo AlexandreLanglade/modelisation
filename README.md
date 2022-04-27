@@ -1,85 +1,68 @@
-# MEMO
+# Notes durant le développement du Plugin NetBox
 
 ## POSTGRESQL
 
-invoking the PostgreSQL shell as the system Postgres user :
-sudo -u postgres psql
+- Invoquer le PostgreSQL shell as the system Postgres user : `sudo -u postgres psql`
 
-CREATE DATABASE netbox;
-CREATE USER netbox WITH PASSWORD 'J5brHrAXFLQSif0K';
-GRANT ALL PRIVILEGES ON DATABASE netbox TO netbox;
+- Création de DB + user :
+    ```
+    CREATE DATABASE netbox;
+    CREATE USER netbox WITH PASSWORD 'J5brHrAXFLQSif0K';  
+    GRANT ALL PRIVILEGES ON DATABASE netbox TO netbox;  
+    ```
+------------------------
+- Connexion :
+    ```
+    psql --username netbox --password --host localhost netbox
+    password :  J5brHrAXFLQSif0K
+    ```
+    > Connexion directe depuis /opt/netbox/ : `python netbox/manage.py dbshell`
 
-psql --username netbox –-password --host localhost netbox
-pwd :  J5brHrAXFLQSif0K
-
-\conninfo
-
-\d nom_table
-
-
--------------------
-
-python netbox/manage.py dbshell
-
+- Quelques commandes POSTGRESQL utiles
+    ```
+    \conninfo
+    \d nom_table
+    ```
 
 ## REDIS
 
-etc/redis/redis.conf
+- Emplacement du fichier de configuration : `etc/redis/redis.conf`
 
-redis-cli ping
+- Commande pour ping-pong : `redis-cli ping`
 
 ## NETBOX
 
-source /opt/netbox/venv/bin/activate
+- Activer le venv de NetBox : `source /opt/netbox/venv/bin/activate`
 
-superuser : netbox netbox
-DEBUG=True
+- Rappel (username,password) de test : (netbox,netbox) (superuser)
 
+- > Pour afficher le pannel de Debug :   
+  > Mettre "DEBUG=True" dans le fichier configuration.py
 
-python3 manage.py runserver 0.0.0.0:8000 --insecure
+- Pour lancer l'app NetBox : `python netbox/manage.py runserver`
 
-http://127.0.0.1:8000/
+- Ajout de Data dans la DB à la mano :
+    ```
+    python netbox/manage.py nbshell
 
----------
-```
-python netbox/manage.py nbshell
+    >>> from plugin.models import *
+    >>> a = ModelA(truc='chose')
+    >>> a.save()
 
->>> from netbox_access_lists.models import *
->>> acl = AccessList(name='MyACL1', default_action='deny')
->>> acl
-<AccessList: MyACL1>
->>> acl.save()
+    >>> ModelB(
+    ...     modela=a,
+    ...     truc='chose'
+    ... ).save()
 
->>> AccessListRule(
-...     access_list=acl,
-...     index=10,
-...     protocol='tcp',
-...     destination_prefix=prefix1,
-...     destination_ports=[80, 443],
-...     action='permit',
-...     description='Web traffic'
-... ).save()
->>> AccessListRule(
-...     access_list=acl,
-...     index=20,
-...     protocol='udp',
-...     destination_prefix=prefix2,
-...     destination_ports=[53],
-...     action='permit',
-...     description='DNS'
-... ).save()
->>> acl.rules.all()
-<RestrictedQuerySet [<AccessListRule: MyACL1: Rule 10>, <AccessListRule: MyACL1: Rule 20>]>
-```
+    ```
 
 ## DJANGO
 
 **Migration**:  
 
-DEVELOPER=True
-
-python netbox/manage.py makemigrations modelisation --dry-run
-
-python netbox/manage.py makemigrations modelisation
-
-python netbox/manage.py migrate
+> Mettre "DEVELOPER=True" dans le fichier configuration.py
+```
+python netbox/manage.py makemigrations nom_plugin --dry-run # simule 
+python netbox/manage.py makemigrations nom_plugin           # fait
+python netbox/manage.py migrate                             # migre
+```
