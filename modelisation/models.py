@@ -18,7 +18,7 @@ class FabricPath(OrganizationalModel):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('plugins:modelisation:fabric_path', args=[self.pk])
+        return reverse('plugins:modelisation:fabricpath', args=[self.pk])
 
 class Topology(OrganizationalModel):
 
