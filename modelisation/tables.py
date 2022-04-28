@@ -31,7 +31,7 @@ class TopologyTable(NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = Topology
         fields = ('pk', 'id', 'name', 'slug', 'fabric_path', 'member_count', 'description', 'actions')
-        default_columns = ('name', 'slug', 'member_count', 'description')
+        default_columns = ('name', 'slug', 'fabric_path','member_count', 'description')
 
 
 class MemberTable(NetBoxTable):
