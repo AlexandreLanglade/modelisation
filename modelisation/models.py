@@ -13,7 +13,23 @@ class MemberTypeChoices(ChoiceSet):
         ('vlan', 'VLAN', 'orange'),
     ]
 
+class FabricPath(OrganizationalModel):
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('plugins:modelisation:fabricpath', args=[self.pk])
+
 class Topology(OrganizationalModel):
+
+    fabric_path = models.ForeignKey(
+        to=FabricPath,
+        on_delete=models.PROTECT,
+        related_name='topologies'
+    )
+
+    class Meta:
+        ordering = ('fabric_path','name')
 
     def __str__(self):
         return self.name

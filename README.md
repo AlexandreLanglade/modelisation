@@ -66,3 +66,11 @@ python netbox/manage.py makemigrations nom_plugin --dry-run # simule
 python netbox/manage.py makemigrations nom_plugin           # fait
 python netbox/manage.py migrate                             # migre
 ```
+
+## Git
+
+Tags et Releases :
+```
+git tag nom_du_tag
+git push origin --tags
+```
